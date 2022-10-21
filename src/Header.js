@@ -1,9 +1,16 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import { LoginContext } from "./Context";
 
-export default function Header(){
+export default function Header() {
+    const { user, setUser } = useContext(LoginContext)
 
-    return(<Header2><h1>Tracker</h1><img src="https://pbs.twimg.com/profile_images/1508843158041468932/R3jMOoCT_400x400.jpg"></img></Header2>
-        
+    return (
+        <Header2>
+            <h1>Tracker</h1>
+            <img src={user.image} />
+        </Header2>
+
     )
 }
 

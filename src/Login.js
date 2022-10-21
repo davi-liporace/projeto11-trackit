@@ -1,19 +1,46 @@
 import styled from "styled-components"
 import logo from "./Group8.jpg"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useContext, useState } from "react"
+import { LoginContext } from "./Context"
+import axios from "axios"
 
 export default function Login(){
+    const {user, setUser} = useContext(LoginContext)
+    const [body, setBody] = useState({email:"",password:""})
+    const navigate = useNavigate()
+function handleForm(e){
+    setBody({...body,[e.target.name]:e.target.value})
+}
+function postLogin(e){
+    e.preventDefault()
+    axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",body)
+    .then(res => setUser(res.data), navigate("/hoje") )
+    .catch(res => alert(res.response.status))
+}
+
+
     return(<ContainerPagina>
         <img src={logo}/>
-        <ContainerLogin>
-            <input placeholder="e-mail" />
-            <input placeholder="senha" />
+        <ContainerLogin onSubmit={postLogin}>
+            <input 
+            placeholder="e-mail"
+            name="email"
+            value={body.email}
+            onChange={handleForm}
+            type="email"
+             />
+            <input placeholder="senha"
+            name="password"
+            value={body.password}
+            onChange={handleForm}
+            type="password" />
             <BotaoLogin><h1>Entrar</h1></BotaoLogin>
-            <Link to ="/cadastro"> <h1>Não tem uma conta? Cadastre-se!</h1></Link>
+            
 
 
         </ContainerLogin>
-       
+        <Link to ="/cadastro"> <h1>Não tem uma conta? Cadastre-se!</h1></Link>
         </ContainerPagina>)
 }
 
@@ -24,6 +51,12 @@ flex-direction: column;
 display: flex;
 align-items: center;
 margin-top: 60px;
+h1{
+    font-size: 13.976px;
+    color: #52B6FF;
+    font-family: 'Lexend Deca';
+    text-decoration-line: underline;
+}
 
 margin-left: auto;
 img{
@@ -32,7 +65,7 @@ img{
     margin-bottom: 30px;
 }
 `
-const ContainerLogin = styled.div`
+const ContainerLogin = styled.form`
 display:flex ;
 flex-direction: column;
 align-items: center;
@@ -44,12 +77,7 @@ border-radius: 5px;
 margin-top: 10px;
 color: #D4D4D4;
 }
-h1{
-    font-size: 13.976px;
-    color: #52B6FF;
-    font-family: 'Lexend Deca';
-    text-decoration-line: underline;
-}
+
 `
 const BotaoLogin = styled.button`
 width: 303px;

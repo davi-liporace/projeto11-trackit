@@ -1,22 +1,61 @@
 import styled from "styled-components"
 import logo from "./Group8.jpg"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useContext, useState } from "react"
+import { LoginContext } from "./Context"
+import axios from "axios"
 
 
 export default function Cadastro(){
+    const {user, setUser} = useContext(LoginContext)
+    const [body, setBody] = useState({email:"",name:"",image:"",password:""})
+    const navigate = useNavigate()
+function handleForm(e){
+    setBody({...body,[e.target.name]:e.target.value})
+}
+function postLogin(e){
+    e.preventDefault()
+    axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up",body)
+    .then(res =>alert("Cadastro realizado!"), navigate("/") )
+    .catch(res => alert(res.response.status))
+}
+
+
+
     return(<ContainerPagina>
         <img src={logo}/>
-        <ContainerLogin>
-            <input placeholder="e-mail" />
-            <input placeholder="senha" />
-            <input placeholder="Nome" />
-            <input placeholder="Foto" />
+        <ContainerLogin onSubmit={postLogin}>
+            <input placeholder="e-mail"
+            type="email"
+            name="email"
+            value={body.email}
+            onChange={handleForm}
+            />
+            <input placeholder="senha" 
+            type="password"
+            name="password"
+            value={body.password}
+            onChange={handleForm}
+            />
+            
+            <input placeholder="Nome"
+            type="text"
+            name="name"
+            value={body.name}
+            onChange={handleForm}
+            />
+            <input placeholder="Foto"
+            type="url"
+            name="image"
+            value={body.image}
+            onChange={handleForm}
+            />
             <BotaoLogin><h1>Cadastrar</h1></BotaoLogin>
-           <Link to = "/"> <h1>Já tem uma conta? Faça login!</h1></Link>
+          
 
 
         </ContainerLogin>
-       
+        <Link to = "/"> <h1>Já tem uma conta? Faça login!</h1></Link>
         </ContainerPagina>)
 }
 
@@ -33,8 +72,14 @@ img{
     width: 180px;
     margin-bottom: 30px;
 }
+h1{
+    font-size: 13.976px;
+    color: #52B6FF;
+    font-family: 'Lexend Deca';
+    text-decoration-line: underline;
+}
 `
-const ContainerLogin = styled.div`
+const ContainerLogin = styled.form`
 display:flex ;
 flex-direction: column;
 align-items: center;
@@ -46,12 +91,7 @@ border-radius: 5px;
 margin-top: 10px;
 color: #D4D4D4;
 }
-h1{
-    font-size: 13.976px;
-    color: #52B6FF;
-    font-family: 'Lexend Deca';
-    text-decoration-line: underline;
-}
+
 `
 const BotaoLogin = styled.button`
 width: 303px;
