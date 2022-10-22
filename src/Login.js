@@ -4,9 +4,11 @@ import { Link, useNavigate } from "react-router-dom"
 import { useContext, useState } from "react"
 import { LoginContext } from "./Context"
 import axios from "axios"
+import { ThreeDots } from "react-loader-spinner"
 
 export default function Login(){
     const {user, setUser} = useContext(LoginContext)
+    const [disabled, setDisabled] = useState(false)
     const [body, setBody] = useState({email:"",password:""})
     const navigate = useNavigate()
 function handleForm(e){
@@ -14,9 +16,10 @@ function handleForm(e){
 }
 function postLogin(e){
     e.preventDefault()
+    setDisabled(true)
     axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",body)
-    .then(res => setUser(res.data), navigate("/hoje") )
-    .catch(res => alert(res.response.status))
+    .then(res => setUser(res.data), navigate("/hoje"),  setDisabled(false) )
+    .catch(res => alert(res.response.status), setDisabled(true))
 }
 
 
@@ -35,7 +38,16 @@ function postLogin(e){
             value={body.password}
             onChange={handleForm}
             type="password" />
-            <BotaoLogin><h1>Entrar</h1></BotaoLogin>
+            <BotaoLogin disabled={disabled} type="submit" >
+                <h1 visible={!disabled}>Entrar</h1> 
+            <ThreeDots 
+            height="80"
+            width="80"
+            radius="9"
+            color="#FFFFFF"
+            visible={disabled}
+            /></BotaoLogin>
+
             
 
 
@@ -87,9 +99,16 @@ border-radius: 4.63636px;
 margin-top: 5%;
 margin-bottom: 5%;
 h1{
+   display: ${props=>props.visible?"none":""};
     color: white;
     font-size: 20.976px;
     font-family: 'Lexend Deca';
-
 }
+
 `
+/* const TextoBotao = styled.h1`
+    display:${props => props.visible?'':"none"};
+    color: white;
+    font-size: 20.976px;
+    font-family: 'Lexend Deca';
+    ` */

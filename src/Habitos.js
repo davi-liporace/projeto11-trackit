@@ -1,19 +1,37 @@
 import Header from "./Header"
 import Footer from "./Footer"
 import styled from "styled-components"
+import { useContext, useState } from "react"
+import BotaoDia from "./BotaoDia"
+import axios from "axios"
+import { LoginContext } from "./Context"
 
 export default function Habitos(){
+    const [novoHabito, setNovoHabito] = useState({name:"", days:[]})
+    const diasDaSemana=["D","S","T","Q","Q","S","S"]
+    const {user} = useContext(LoginContext)
+    const config = {headers:{"Authorization":`Bearer ${user.token}`}}
+   function postHabito(){
+    axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",novoHabito,config)
+    .then(res => console.log(res.data))
+
+   }
     return(<ContainerPagina><Header></Header>
     <ContainerAddHabito>
         <h1>Meus hábitos</h1>
         <BotaoAdd><h1>+</h1></BotaoAdd>
     </ContainerAddHabito>
     <ContainerNewHabito>
-    <input placeholder="Nome do habito" />
+    <InputName><input placeholder="Nome do habito"
+    name="name"
+    value={novoHabito.name}
+    onChange={(e)=>setNovoHabito({...novoHabito,[e.target.name]:e.target.value})}
+     /></InputName>
     <ContainerDias>
-        <BotaoDia><h1>D</h1></BotaoDia><BotaoDia><h1>S</h1></BotaoDia><BotaoDia><h1>T</h1></BotaoDia><BotaoDia><h1>Q</h1></BotaoDia><BotaoDia><h1>Q</h1></BotaoDia><BotaoDia><h1>S</h1></BotaoDia><BotaoDia><h1>S</h1></BotaoDia>
+        {diasDaSemana.map((e, indice)=> <BotaoDia e={e} indice = {indice} novoHabito = {novoHabito} />)}
+        
 
-        <h2>Cancelar</h2> <BotaoSalvar>Salvar</BotaoSalvar>
+        <h2>Cancelar</h2> <BotaoSalvar onClick={postHabito}>Salvar</BotaoSalvar>
     </ContainerDias>
 
     </ContainerNewHabito>
@@ -71,12 +89,14 @@ padding-left: 19px;
 box-sizing: border-box;
 padding-right: 19px;
 padding-top: 18px;
-input{
-    width: 303px;
+
+`
+const InputName = styled.form`
+ input{
+   width: 303px;
 height: 45px;
 border: 1px solid #D5D5D5;
-border-radius: 5px;
-}
+border-radius: 5px;}
 `
 const ContainerDias = styled.div`
 margin-top: 5px;
@@ -89,23 +109,6 @@ left: 120px;
 font-family: 'Lexend Deca';
 font-size: 15px;
 color: #52B6FF;
-}
-`
-const BotaoDia= styled.button`
-width: 30px;
-height: 30px;
-margin-right: 5px;
-background: #FFFFFF;
-border: 1px solid #D5D5D5;
-border-radius: 5px;
-display: flex;
-justify-content: center;
-align-items: center;
-h1{
-    font-family: 'Lexend Deca';
-    font-size: 19.976px;
-    color: #DBDBDB;
-    background-color: white;
 }
 `
 const BotaoSalvar = styled.button`
