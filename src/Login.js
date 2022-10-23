@@ -38,15 +38,15 @@ function postLogin(e){
             value={body.password}
             onChange={handleForm}
             type="password" />
-            <BotaoLogin disabled={disabled} type="submit" >
-                <h1 visible={!disabled}>Entrar</h1> 
+            <button disabled={disabled} type="submit" >
+                <TextoBotao visible={!disabled}>Entrar</TextoBotao > 
             <ThreeDots 
             height="80"
             width="80"
             radius="9"
             color="#FFFFFF"
             visible={disabled}
-            /></BotaoLogin>
+            /></button>
 
             
 
@@ -81,6 +81,14 @@ const ContainerLogin = styled.form`
 display:flex ;
 flex-direction: column;
 align-items: center;
+button{
+    width: 303px;
+height: 45px;
+background: #52B6FF;
+border-radius: 4.63636px;
+margin-top: 5%;
+margin-bottom: 5%;
+}
 input{
     width: 303px;
 height: 45px;
@@ -92,23 +100,18 @@ color: #D4D4D4;
 
 `
 const BotaoLogin = styled.button`
-width: 303px;
-height: 45px;
-background: #52B6FF;
-border-radius: 4.63636px;
-margin-top: 5%;
-margin-bottom: 5%;
-h1{
+
+/* h1{
    display: ${props=>props.visible?"none":""};
     color: white;
     font-size: 20.976px;
     font-family: 'Lexend Deca';
-}
+} */
 
 `
-/* const TextoBotao = styled.h1`
-    display:${props => props.visible?'':"none"};
+const TextoBotao = styled.h1`
+    display:${props => props.visible?'':''};
     color: white;
     font-size: 20.976px;
     font-family: 'Lexend Deca';
-    ` */
+    `

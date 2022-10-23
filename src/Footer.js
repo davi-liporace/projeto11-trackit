@@ -28,7 +28,7 @@ export default function Footer() {
 
 const Linha = styled.div`
 background-color: white;
-position: absolute;
+position: fixed;
 height: 70px;
 width: 100%;
 bottom: 0px;
