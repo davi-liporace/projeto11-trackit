@@ -18,28 +18,36 @@ function postLogin(e){
     e.preventDefault()
     setDisabled(true)
     axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",body)
-    .then(res => setUser(res.data), navigate("/hoje"),  setDisabled(false) )
-    .catch(res => alert(res.response.status), setDisabled(true))
+    .then(res => {
+         setUser(res.data)
+         navigate("/hoje")
+         setDisabled(false)})
+    .catch(res => {
+        setDisabled(false)
+        alert(res.response.status)
+        })
 }
 
 
     return(<ContainerPagina>
         <img src={logo}/>
         <ContainerLogin onSubmit={postLogin}>
-            <input 
+            <input data-identifier="input-email"
             placeholder="e-mail"
             name="email"
             value={body.email}
             onChange={handleForm}
+            disabled={disabled}
             type="email"
              />
-            <input placeholder="senha"
+            <input placeholder="senha" data-identifier="input-password"
             name="password"
             value={body.password}
             onChange={handleForm}
+            disabled={disabled}
             type="password" />
-            <button disabled={disabled} type="submit" >
-                <TextoBotao visible={!disabled}>Entrar</TextoBotao > 
+            <button disabled={disabled} type="submit" data-identifier="login-btn">
+                <TextoBotao2  visible={!disabled}>Entrar</TextoBotao2> 
             <ThreeDots 
             height="80"
             width="80"
@@ -52,7 +60,7 @@ function postLogin(e){
 
 
         </ContainerLogin>
-        <Link to ="/cadastro"> <h1>Não tem uma conta? Cadastre-se!</h1></Link>
+        <Link to ="/cadastro" data-identifier="sign-up-action"> <h1>Não tem uma conta? Cadastre-se!</h1></Link>
         </ContainerPagina>)
 }
 
@@ -88,6 +96,9 @@ background: #52B6FF;
 border-radius: 4.63636px;
 margin-top: 5%;
 margin-bottom: 5%;
+display: flex;
+justify-content: center;
+align-items: center;
 }
 input{
     width: 303px;
@@ -109,9 +120,15 @@ const BotaoLogin = styled.button`
 } */
 
 `
+const TextoBotao2 = styled.div`
+display:${props => props.visible?'flex':'none'};
+    color:white;
+    font-size: 20.976px;
+    font-family: 'Lexend Deca';
+`
 const TextoBotao = styled.h1`
-    display:${props => props.visible?'':''};
-    color: white;
+    display:${props => props.visible?'none':'flex'};
+    color:white;
     font-size: 20.976px;
     font-family: 'Lexend Deca';
     `

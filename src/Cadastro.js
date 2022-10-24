@@ -9,11 +9,13 @@ import axios from "axios"
 export default function Cadastro(){
     const {user, setUser} = useContext(LoginContext)
     const [body, setBody] = useState({email:"",name:"",image:"",password:""})
+    const [disabled,setDisabled] = useState(false)
     const navigate = useNavigate()
 function handleForm(e){
     setBody({...body,[e.target.name]:e.target.value})
 }
 function postLogin(e){
+    setDisabled(true)
     e.preventDefault()
     axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up",body)
     .then(res =>alert("Cadastro realizado!"), navigate("/") )
@@ -25,37 +27,41 @@ function postLogin(e){
     return(<ContainerPagina>
         <img src={logo}/>
         <ContainerLogin onSubmit={postLogin}>
-            <input placeholder="e-mail"
+            <input placeholder="e-mail" data-identifier="input-email"
             type="email"
             name="email"
             value={body.email}
             onChange={handleForm}
+            disabled={disabled}
             />
-            <input placeholder="senha" 
+            <input placeholder="senha" data-identifier="input-password"
             type="password"
             name="password"
             value={body.password}
             onChange={handleForm}
+            disabled={disabled}
             />
             
-            <input placeholder="Nome"
+            <input placeholder="Nome" data-identifier="input-name"
             type="text"
             name="name"
             value={body.name}
             onChange={handleForm}
+            disabled={disabled}
             />
-            <input placeholder="Foto"
+            <input placeholder="Foto" data-identifier="input-photo"
             type="url"
             name="image"
             value={body.image}
             onChange={handleForm}
+            disabled={disabled}
             />
             <BotaoLogin><h1>Cadastrar</h1></BotaoLogin>
           
 
 
         </ContainerLogin>
-        <Link to = "/"> <h1>Já tem uma conta? Faça login!</h1></Link>
+        <Link to = "/" data-identifier="back-to-login-action"> <h1>Já tem uma conta? Faça login!</h1></Link>
         </ContainerPagina>)
 }
 

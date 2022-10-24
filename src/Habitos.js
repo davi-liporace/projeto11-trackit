@@ -37,21 +37,21 @@ if(listaHabitos === 0){
         <BotaoAdd onClick={mostraNovoHabito}><h1>+</h1></BotaoAdd>
     </ContainerAddHabito>
     <ContainerNewHabito displayNovoHabito ={displayNovoHabito} setDisplayNovoHabito={setDisplayNovoHabito}>
-    <InputName><input placeholder="Nome do habito"
+    <InputName><input placeholder="Nome do habito" data-identifier="input-habit-name"
     name="name"
     value={novoHabito.name}
     onChange={(e)=>setNovoHabito({...novoHabito,[e.target.name]:e.target.value})}
      /></InputName>
-    <ContainerDias>
+    <ContainerDias data-identifier="week-day-btn">
         {diasDaSemana.map((e, indice)=> <BotaoDia e={e} indice = {indice} novoHabito = {novoHabito} />)}
         
 
-        <h2 onClick={mostraNovoHabito}>Cancelar</h2> <BotaoSalvar onClick={postHabito}> Salvar</BotaoSalvar>
+        <h2 onClick={mostraNovoHabito} data-identifier="cancel-habit-create-btn" >Cancelar</h2> <BotaoSalvar onClick={postHabito} data-identifier="save-habit-create-btn" > Salvar</BotaoSalvar>
     </ContainerDias>
 
     </ContainerNewHabito>
     
-    <TextoAviso >Você não tem nenhum hábito cadastrado ainda. 
+    <TextoAviso data-identifier="no-habit-message" >Você não tem nenhum hábito cadastrado ainda. 
         Adicione um hábito para começar a trackear!</TextoAviso>
     
     <Footer></Footer></ContainerPagina>)
@@ -71,7 +71,7 @@ onChange={(e)=>setNovoHabito({...novoHabito,[e.target.name]:e.target.value})}
     {diasDaSemana.map((e, indice)=> <BotaoDia e={e} indice = {indice} novoHabito = {novoHabito} />)}
     
 
-    <h2 onClick={mostraNovoHabito}>Cancelar</h2> <Link to="/hoje"> <BotaoSalvar onClick={postHabito}>Salvar</BotaoSalvar></Link>
+    <h2 onClick={mostraNovoHabito}>Cancelar</h2> <Link to="/hoje"> <BotaoSalvar data-identifier="create-habit-btn" onClick={postHabito}>Salvar</BotaoSalvar></Link>
 </ContainerDias>
 
 </ContainerNewHabito><AfastaoFooter>

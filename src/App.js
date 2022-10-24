@@ -14,7 +14,8 @@ export default function App() {
         "name": "",
         "image": "",
         "password": "",
-        "token": ""
+        "token": "",
+        "progress":""
     })
     return (<BrowserRouter> 
     <GlobalStyles />

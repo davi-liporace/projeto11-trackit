@@ -1,24 +1,36 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
-import { CircularProgressbar } from "react-circular-progressbar"
+import { buildStyles, CircularProgressbar } from "react-circular-progressbar"
 import 'react-circular-progressbar/dist/styles.css'
+import { LoginContext } from "./Context"
+import { useContext } from "react"
 
 
 export default function Footer() {
+    const {user} = useContext(LoginContext)
+    
 
     return (
         <Linha>
             <h1>
-                <Link to="/habitos"> Hábitos</Link>
+                <Link to="/habitos" data-identifier="habit-page-action" > Hábitos</Link>
             </h1>
             <BotaoHoje>
                 <Link to="/hoje">
-                    <CircularProgressbar text="Hoje" value={30} >
+                    <CircularProgressbar text="Hoje" value={user.progress}
+                    background
+                    backgroundPadding={6}
+                    styles={buildStyles({
+                        backgroundColor:"#52B6FF",
+                        textColor:"#FFFFFF",
+                        pathColor:"#FFFFFF",
+                        trailColor:"transparent"
+                    })} >
                     </CircularProgressbar>
                 </Link>
             </BotaoHoje>
             <h1>
-                <Link to="/historico"> Histórico </Link>
+                <Link to="/historico" data-identifier="historic-page-action" > Histórico </Link>
             </h1>
 
         </Linha>
